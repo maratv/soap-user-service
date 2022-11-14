@@ -8,56 +8,51 @@ import javax.jws.WebResult;
 import javax.jws.WebService;
 import javax.xml.ws.RequestWrapper;
 import javax.xml.ws.ResponseWrapper;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 @WebService
 public interface UserWebService {
 
-    @WebResult(name = "return", targetNamespace = "")
-    @RequestWrapper(
-            localName = "sayHello") //,
-          //  targetNamespace = "http://service.soap.user/")
+
+    @WebResult(name = "return")
+    @RequestWrapper(localName = "sayHello") //,
     @WebMethod(action = "urn:SayHello")
-    @ResponseWrapper(
-            localName = "sayHelloResponse") //,
-         //   targetNamespace = "http://service.soap.user/")
-    String sayHello(@WebParam(name = "name") String name);
+    @ResponseWrapper(localName = "sayHelloResponse")
+    String sayHello(@WebParam(name = "name") String name);                     // тестовый
 
-    @WebResult(name = "return", targetNamespace = "")
-    @RequestWrapper(
-            localName = "addUser",
-            targetNamespace = "http://service.soap.user/")
-    @WebMethod
-    @ResponseWrapper(
-            localName = "addUserResponse",
-            targetNamespace = "http://service.soap.user/")
-  //  void addUser(@WebParam(name = "user", targetNamespace = "") User user);
-    CompletableFuture<Void> addUser(@WebParam(name = "user") User user);
+    @WebResult(name = "return")
+    @RequestWrapper(localName = "getAllUsers")
+    @WebMethod(action = "urn:getAllUsers")
+    @ResponseWrapper(localName = "getAllUsersResponse")
+        //   CompletableFuture<Iterable<User>> getAllUsers();                       // 1 Получать список без ролей
+    List<User> getAllUsers();                       // 1 Получать список без ролей
 
 
     @WebResult(name = "return", targetNamespace = "")
-    @RequestWrapper(
-            localName = "getAllUsers",
-            targetNamespace = "http://service.soap.user/")
+    @RequestWrapper(localName = "getUserByName")
     @WebMethod
-    @ResponseWrapper(
-            localName = "getAllUsersResponse",
-            targetNamespace = "http://service.soap.user/")
+    @ResponseWrapper(localName = "getUserByNameResponse")
+    CompletableFuture<User> getUserByName(@WebParam(name = "name") String name);  // 2 Получать конкретного пользователя по имени
+
+    @WebResult(name = "return", targetNamespace = "")
+    @RequestWrapper(localName = "deleteUserByName")
+    @WebMethod
+    @ResponseWrapper(localName = "deleteUserByNameResponse")
+    CompletableFuture<Void> deleteUserByName(@WebParam(name = "name") String name);              // 3 Удалять пользователя
+
+    @WebResult(name = "return")
+    @RequestWrapper(localName = "addUser")
+    @WebMethod
+    @ResponseWrapper(localName = "addUserResponse")
+    CompletableFuture<Void> addUser(@WebParam(name = "user") User user);     // 4 добавлять пользователя (с ролями)
 
 
-
-
-
-    CompletableFuture<Void> editUser(User user);
-
-    CompletableFuture<Void> deleteUserByUsername(String username);
-
-    //  CompletableFuture<Iterable<User>> getAllUsers();
-    CompletableFuture<Void> deleteRoleByUsername(String username, Long id);
-
-    CompletableFuture<Void> addRole(String username, long role);
-
-    CompletableFuture<User> getUserByUsernameService(String username);
+    @WebResult(name = "return", targetNamespace = "")
+    @RequestWrapper(localName = "updateUser")
+    @WebMethod
+    @ResponseWrapper(localName = "updateUserResponse")
+    CompletableFuture<Void> updateUser(@WebParam(name = "user") User user);                           // 5 редактировать пользователя (с ролями)
 
 
 }
