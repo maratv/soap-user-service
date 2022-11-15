@@ -5,18 +5,19 @@ import org.springframework.stereotype.Service;
 import soapuserservice.entity.User;
 import soapuserservice.exception.UserAlreadyExistException;
 import soapuserservice.exception.UserNotFoundException;
+import soapuserservice.exception.UserValidationException;
 import soapuserservice.repository.UserRepository;
+import soapuserservice.validator.Validator;
 
-import javax.sound.midi.Soundbank;
+import javax.jws.WebService;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+
 
 @Service
-//@RequiredArgsConstructor
-@javax.jws.WebService(
+@WebService(
         serviceName = "UserWebService",
         targetNamespace = "http://service.soap.user/",
         endpointInterface = "soapuserservice.service.UserWebService")
@@ -24,6 +25,10 @@ public class UserWebServiceImpl implements UserWebService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private Validator validator;
+
 
     @Override
     public String sayHello(String name) {
@@ -43,34 +48,55 @@ public class UserWebServiceImpl implements UserWebService {
 
     @Override
     public User getUserByName(String name) {
-        Optional<User> optUser = userRepository.findByName(name);
-        if (optUser.isPresent()) {
-            User user = optUser.get();
-            return user;
+        Optional<User> optionalUser = userRepository.findByName(name);
+        if (optionalUser.isPresent()) {
+            return optionalUser.get();
         } else throw new UserNotFoundException(name);
     }
 
     @Override
-    public void deleteUserByName(String name) {
-        Optional<User> optUser = userRepository.findByName(name);
-        if (optUser.isPresent()) {
-            userRepository.delete(optUser.get());
-        } else throw new UserNotFoundException(name);
+    public ValidationResponse deleteUserByName(String name) {
+        Optional<User> optionalUser = userRepository.findByName(name);
+        if (optionalUser.isPresent()) {
+            userRepository.delete(optionalUser.get());
+            return new ValidationResponse();
+        } else return new ValidationResponse("Don't found user with name: " +  name);
     }
 
+//    @Override
+//    public void addUser(User user) {
+//        List<String> errors = validator.validation(user);
+//        if (errors.size() == 0) {
+//            if (!userRepository.findById(user.getLogin()).isPresent()) {
+//                userRepository.save(user);
+//            } else throw new UserAlreadyExistException(user.getLogin());
+//        } else throw new UserValidationException(errors);
+//    }
+
     @Override
-    public void addUser(User user) {
-        if (userRepository.findById(user.getLogin()).isPresent()) {
-            userRepository.save(user);
-        } else throw new UserAlreadyExistException(user.getLogin());
+    public ValidationResponse addUser(User user) {
+        List<String> errors = validator.validation(user);
+        if (errors.size() == 0) {
+            if (!userRepository.findById(user.getLogin()).isPresent()) {
+                userRepository.save(user);
+                return new ValidationResponse();
+            } else throw new UserAlreadyExistException(user.getLogin());
+            //} else throw new UserValidationException(errors);
+        } else return new ValidationResponse(errors);
     }
+
 
     @Override
     public void updateUser(User user) {
+        List<String> errors = validator.validation(user);
+        if (errors.size() == 0) {
+            if (!userRepository.findById(user.getLogin()).isPresent()) {
+                userRepository.save(user);
+            } else throw new UserAlreadyExistException(user.getLogin());
+        } else throw new UserValidationException(errors);
+
 
     }
 
 
 }
-
-

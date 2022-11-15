@@ -10,6 +10,6 @@ public class UserValidationException extends RuntimeException {
     }
 
     public UserValidationException(List<String> messages) {
-        super("Verification failed for this reason:" + messages);
+        super("Verification failed for this reason: " + messages);
     }
 }

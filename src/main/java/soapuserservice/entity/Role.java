@@ -1,17 +1,18 @@
 package soapuserservice.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
-import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.Id;
+import javax.persistence.Column;
+
 
 @Entity
 @Setter
 @NoArgsConstructor
-//@AllArgsConstructor
 @Table(name = "role")
 public class Role {
 
@@ -26,20 +27,4 @@ public class Role {
         return id;
     }
 
-
-//    @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
-//    private List<User> users;
-
-//    @Transient
-//    private boolean isNew;
-//
-//    @Override
-//    public String getId() {
-//        return name;
-//    }
-//
-//    @Override
-//    public boolean isNew() {
-//        return isNew;
-//    }
 }
