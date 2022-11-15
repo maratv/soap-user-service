@@ -3,25 +3,32 @@ package soapuserservice.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
-@Data
+@Setter
 @NoArgsConstructor
-@AllArgsConstructor
-@Table(name = "users")
+//@AllArgsConstructor
+@Table(name = "role")
 public class Role {
 
     @Id
-    @Column(name = "name")
-    private String name;
+    @Column(name = "id")
+    private Integer id;
 
-    @Column(name = "password")
-    private String password;
+    @Column(name = "role_name")
+    private String roleName;
+
+    public Integer getId() {
+        return id;
+    }
+
+
+//    @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
+//    private List<User> users;
 
 //    @Transient
 //    private boolean isNew;

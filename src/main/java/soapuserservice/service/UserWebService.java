@@ -9,7 +9,6 @@ import javax.jws.WebService;
 import javax.xml.ws.RequestWrapper;
 import javax.xml.ws.ResponseWrapper;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
 @WebService
 public interface UserWebService {
@@ -21,38 +20,37 @@ public interface UserWebService {
     @ResponseWrapper(localName = "sayHelloResponse")
     String sayHello(@WebParam(name = "name") String name);                     // тестовый
 
-    @WebResult(name = "return")
+    @WebResult(name = "user")
     @RequestWrapper(localName = "getAllUsers")
     @WebMethod(action = "urn:getAllUsers")
     @ResponseWrapper(localName = "getAllUsersResponse")
-        //   CompletableFuture<Iterable<User>> getAllUsers();                       // 1 Получать список без ролей
-    List<User> getAllUsers();                       // 1 Получать список без ролей
+    List<User> getAllUsers();                                    // 1 Получать список без ролей
 
 
-    @WebResult(name = "return", targetNamespace = "")
+    @WebResult(name = "user")
     @RequestWrapper(localName = "getUserByName")
     @WebMethod
     @ResponseWrapper(localName = "getUserByNameResponse")
-    CompletableFuture<User> getUserByName(@WebParam(name = "name") String name);  // 2 Получать конкретного пользователя по имени
+    User getUserByName(@WebParam(name = "name") String name);   // 2 Получать конкретного пользователя по имени
 
-    @WebResult(name = "return", targetNamespace = "")
+    @WebResult(name = "return")
     @RequestWrapper(localName = "deleteUserByName")
     @WebMethod
     @ResponseWrapper(localName = "deleteUserByNameResponse")
-    CompletableFuture<Void> deleteUserByName(@WebParam(name = "name") String name);              // 3 Удалять пользователя
+    void deleteUserByName(@WebParam(name = "name") String name);    // 3 Удалять пользователя
 
     @WebResult(name = "return")
     @RequestWrapper(localName = "addUser")
     @WebMethod
     @ResponseWrapper(localName = "addUserResponse")
-    CompletableFuture<Void> addUser(@WebParam(name = "user") User user);     // 4 добавлять пользователя (с ролями)
+    void addUser(@WebParam(name = "user") User user);               // 4 добавлять пользователя (с ролями)
 
 
-    @WebResult(name = "return", targetNamespace = "")
+    @WebResult(name = "success")
     @RequestWrapper(localName = "updateUser")
     @WebMethod
     @ResponseWrapper(localName = "updateUserResponse")
-    CompletableFuture<Void> updateUser(@WebParam(name = "user") User user);                           // 5 редактировать пользователя (с ролями)
+    void updateUser(@WebParam(name = "user") User user);           // 5 редактировать пользователя (с ролями)
 
 
 }
