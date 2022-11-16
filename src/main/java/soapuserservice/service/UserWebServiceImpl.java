@@ -26,7 +26,7 @@ public class UserWebServiceImpl implements UserWebService {
     @Override
     public List<String> getAllUsers() {
         return userRepository.findAll().stream()
-                .map(user -> user.toString())
+                .map(User::toString)
                 .collect(Collectors.toList());
     }
 
