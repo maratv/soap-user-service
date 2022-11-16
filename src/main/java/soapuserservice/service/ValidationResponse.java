@@ -2,14 +2,19 @@ package soapuserservice.service;
 
 import org.springframework.stereotype.Component;
 
+import javax.xml.bind.annotation.XmlType;
+import java.util.ArrayList;
 import java.util.List;
 
+@XmlType(name = "", propOrder = {
+        "success",
+        "errors"
+})
 @Component
 public class ValidationResponse {
-    private boolean success;
-    private List<String> errors;
 
-    String error;
+    boolean success;
+    List<String> errors;
 
 
     public ValidationResponse(List<String> errors) {
@@ -17,22 +22,16 @@ public class ValidationResponse {
         this.errors = errors;
     }
 
-    public ValidationResponse(String error) {
-        success = false;
-        this.error = error;
-    }
-
     public ValidationResponse() {
         success = true;
     }
 
-/*
-    public boolean isSuccess() {
-        return success;
-    }
-
     public void setSuccess(boolean value) {
         this.success = value;
+    }
+
+    public boolean isSuccess() {
+        return success;
     }
 
     public List<String> getErrors() {
@@ -41,6 +40,8 @@ public class ValidationResponse {
         }
         return this.errors;
     }
- */
 
+    public void setErrors(List<String> errors) {
+        this.errors = errors;
+    }
 }

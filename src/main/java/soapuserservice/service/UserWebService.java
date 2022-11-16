@@ -1,5 +1,6 @@
 package soapuserservice.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import soapuserservice.entity.User;
 
 import javax.jws.WebMethod;
@@ -13,18 +14,11 @@ import java.util.List;
 @WebService
 public interface UserWebService {
 
-
-    @WebResult(name = "return")
-    @RequestWrapper(localName = "sayHello") //,
-    @WebMethod(action = "urn:SayHello")
-    @ResponseWrapper(localName = "sayHelloResponse")
-    String sayHello(@WebParam(name = "name") String name);                     // тестовый
-
     @WebResult(name = "user")
     @RequestWrapper(localName = "getAllUsers")
     @WebMethod
     @ResponseWrapper(localName = "getAllUsersResponse")
-    List<User> getAllUsers();                                    // 1 Получать список без ролей
+    List<String> getAllUsers();                                    // 1 Получать список без ролей
 
 
     @WebResult(name = "user")
@@ -35,9 +29,8 @@ public interface UserWebService {
 
     @WebResult(name = "return")
     @RequestWrapper(localName = "deleteUserByName")
-    @WebMethod
+    @WebMethod()
     @ResponseWrapper(localName = "deleteUserByNameResponse")
-  //  void deleteUserByName(@WebParam(name = "name") String name);    // 3 Удалять пользователя по имени
     ValidationResponse deleteUserByName(@WebParam(name = "name") String name);    // 3 Удалять пользователя по имени
 
 
@@ -51,7 +44,7 @@ public interface UserWebService {
     @RequestWrapper(localName = "updateUser")
     @WebMethod
     @ResponseWrapper(localName = "updateUserResponse")
-    void updateUser(@WebParam(name = "user") User user);           // 5 редактировать пользователя (с ролями)
+    ValidationResponse updateUser(@WebParam(name = "User") User user);   // 5 ред. пользователя (с ролями) по имени
 }
 
 

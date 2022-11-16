@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class Validator {
+public class UserValidator {
 
     public List<String> validation(User user) {
         List<String> errors = new ArrayList<>();

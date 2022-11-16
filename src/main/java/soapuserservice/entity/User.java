@@ -33,11 +33,9 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" +
-                "login='" + login + '\'' +
+        return  "login='" + login + '\'' +
                 ", password='" + "*****" + '\'' +
-                ", name='" + name + '\'' +
-                '}';
+                ", name='" + name + "'";
     }
 
     public String getLogin() {

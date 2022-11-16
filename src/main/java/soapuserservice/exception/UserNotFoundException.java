@@ -8,6 +8,6 @@ public class UserNotFoundException extends RuntimeException {
 
     
     public UserNotFoundException(String message) {
-        super("Don't found user with name: " + message);
+        super("User with name: '" + message + "' not found");
     }
 }
