@@ -1,6 +1,5 @@
 package soapuserservice.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import soapuserservice.entity.User;
 
 import javax.jws.WebMethod;
